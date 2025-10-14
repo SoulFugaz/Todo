@@ -1,0 +1,113 @@
+﻿<Window x:Class="Desktop.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Log In" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="White" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LineTextBox" TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#DDD"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#444"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="0,4"/>
+        </Style>
+
+        <ControlTemplate x:Key="WatermarkPasswordBox" TargetType="PasswordBox">
+            <Grid>
+                <Border BorderBrush="#DDD" BorderThickness="0,0,0,1"/>
+                <ScrollViewer x:Name="PART_ContentHost"
+                              HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Hidden"
+                              Focusable="False"/>
+                <TextBlock Text="Введите пароль"
+                           Foreground="LightGray"
+                           Margin="2,4,0,0"
+                           IsHitTestVisible="False">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Password.Length,
+                                                                RelativeSource={RelativeSource TemplatedParent}}"
+                                             Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=Password.Length,
+                                                                RelativeSource={RelativeSource TemplatedParent}}"
+                                             Value="1">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" Background="White">
+            <Image Source="/Desktop;component/images/logo.png"
+                   Width="140" Height="140"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top" Margin="0,100,0,0"/>
+        </Grid>
+
+        <StackPanel Grid.Column="1" Margin="40,0,40,0" VerticalAlignment="Center">
+
+            <TextBlock Text="Добро пожаловать!"
+                       FontSize="24" FontWeight="SemiBold"
+                       Foreground="#222" Margin="0,0,0,30"/>
+
+            <TextBlock Text="Почта" FontSize="14" FontWeight="SemiBold" Foreground="#333"/>
+            <TextBox Style="{StaticResource LineTextBox}"
+                     Margin="0,6,0,20"
+                     Text="pangcheo12120@gmail.com"/>
+
+            <TextBlock Text="Пароль" FontSize="14" FontWeight="SemiBold" Foreground="#333"/>
+            <PasswordBox Margin="0,6,0,8"
+                         Foreground="#444"
+                         FontSize="14"
+                         Template="{StaticResource WatermarkPasswordBox}"/>
+
+            <TextBlock Text="Восстановить пароль"
+                       HorizontalAlignment="Right"
+                       Foreground="#222"
+                       Cursor="Hand"
+                       Margin="0,0,0,20"/>
+
+            <Button Content="Войти"
+                    Margin="0,0,0,12"
+                    Background="#F25B5B"
+                    Style="{StaticResource RoundedButton}"/>
+            <Button Content="Регистрация"
+                    Background="#F46D6D"
+                    Style="{StaticResource RoundedButton}"/>
+        </StackPanel>
+    </Grid>
+</Window>
