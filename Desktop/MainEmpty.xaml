@@ -95,7 +95,7 @@
                         Style="{StaticResource RoundedButton}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Margin="0,120,0,0"/>
+                        Margin="0,120,0,0" Click="Button_Click"/>
             </Grid>
         </Grid>
     </Grid>
