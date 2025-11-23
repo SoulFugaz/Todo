@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Desktop.Repository;
+using TodoDesktop;
 
 namespace Desktop
 {
@@ -10,19 +12,15 @@ namespace Desktop
             InitializeComponent();
         }
 
-        // Кнопка "Регистрация" (переход на окно регистрации)
+        // Кнопка "Регистрация"
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            RegistrationWindow registrationWindow = new RegistrationWindow();
-            registrationWindow.Show();
+            RegistrationWindow reg = new RegistrationWindow();
+            reg.Show();
             this.Close();
         }
 
-        // Текст почты
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            // Можно добавить визуальную подсветку, если нужно
-        }
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e) { }
 
         // Кнопка "Войти"
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -30,25 +28,47 @@ namespace Desktop
             string email = EmailBox.Text.Trim();
             string password = PasswordBox1.Password.Trim();
 
-            // Проверяем поля
-            if (!InputValidator.ValidateEmail(email))
+            if (string.IsNullOrWhiteSpace(email))
             {
-                MessageBox.Show("Введите корректную почту (пример: example@mail.ru)",
-                                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Введите Email!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (!InputValidator.ValidatePassword(password))
+            if (string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Пароль должен содержать не менее 6 символов.",
-                                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Введите пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Если всё верно — переход на MainEmpty
-            MainEmpty mainWindow = new MainEmpty();
-            mainWindow.Show();
-            this.Close();
+            // Авторизация
+            bool success = UserRepository.Login(email, password);
+
+            if (!success)
+            {
+                MessageBox.Show("Неверный Email или пароль!",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // --- НОВАЯ ЛОГИКА: проверка есть ли задачи у пользователя ---
+            var userId = UserRepository.CurrentUser!.Id;
+            bool hasTasks = TaskRepository.GetTasksForUser(userId).Any();
+
+            if (!hasTasks)
+            {
+                // Нет задач → открываем MainEmpty
+                MainEmpty empty = new MainEmpty();
+                empty.Show();
+                this.Close();
+                return;
+            }
+            else
+            {
+                // Есть задачи → открываем MainWindow
+                MainWindow main = new MainWindow();
+                main.Show();
+                this.Close();
+            }
         }
     }
 }
