@@ -1,12 +1,10 @@
-﻿<Window x:Class="Desktop.AddTaskWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Создание задачи"
-        Height="520"
-        Width="880"
-        WindowStartupLocation="CenterScreen"
-        Background="#DDDDDD"
-        ResizeMode="NoResize">
+﻿<Page x:Class="Desktop.View.AddTaskPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Создание задачи"
+      Height="520"
+      Width="880"
+      Background="#DDDDDD">
 
     <Grid Margin="30">
         <Grid.ColumnDefinitions>
@@ -141,4 +139,4 @@
             </StackPanel>
         </StackPanel>
     </Grid>
-</Window>
+</Page>

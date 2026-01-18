@@ -1,38 +1,35 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
+using System.Windows.Controls;
 using Desktop.Repository;
 using Todo.Entities;
 
-namespace TodoDesktop
+namespace Desktop.View
 {
-    public partial class HistoryWindow : Window
+    public partial class HistoryPage : Page
     {
         public ObservableCollection<TaskModel> Tasks { get; set; }
         public TaskModel SelectedTask { get; set; }
 
-        public string CurrentUserName => UserRepository.CurrentUser?.Name ?? "Unknown";
+        public string CurrentUserName => UserRepository.CurrentUser?.Name ?? "";
 
-        public HistoryWindow()
+        public HistoryPage()
         {
             InitializeComponent();
 
-            var userId = UserRepository.CurrentUser!.Id;
-
             Tasks = new ObservableCollection<TaskModel>(
-                TaskRepository.GetTasksForUser(userId).Where(t => t.IsDone)
+                TaskRepository
+                    .GetTasksForUser(UserRepository.CurrentUser!.Id)
+                    .Where(t => t.IsDone)
             );
 
             SelectedTask = Tasks.FirstOrDefault();
-
             DataContext = this;
         }
 
         private void BackToMain_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            MainWindow mw = new MainWindow();
-            mw.Show();
-            this.Close();
+            NavigationService.Navigate(new MainEmptyPage());
         }
     }
 }
