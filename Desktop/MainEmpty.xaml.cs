@@ -31,21 +31,10 @@ namespace Desktop
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // Открываем окно создания задачи
-            var addWindow = new AddTaskWindow();
-            addWindow.Owner = this;
 
-            // Ждём результата
-            bool? result = addWindow.ShowDialog();
-
-            // Если задача успешно создана — открываем MainWindow
-            if (result == true)
-            {
-                var main = new MainWindow();
-                main.Show();
-                this.Close();
-            }
+            MainWindow MainWindow = new MainWindow();
+            MainWindow.Show();
+            this.Close();
         }
-
     }
 }
