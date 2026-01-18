@@ -8,7 +8,6 @@
       Background="White">
 
     <Page.Resources>
-        <!-- Стиль для кнопок -->
         <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="14"/>
@@ -33,7 +32,7 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Левая часть (логотип) -->
+
         <Grid Grid.Column="0" Background="White">
             <Image Source="/Desktop;component/images/logo.png"
                    Width="140" Height="140"
@@ -41,33 +40,28 @@
                    VerticalAlignment="Top" Margin="0,100,0,0"/>
         </Grid>
 
-        <!-- Правая часть (форма входа) -->
         <StackPanel Grid.Column="1" Margin="40,0,40,0" VerticalAlignment="Center">
             <TextBlock Text="Добро пожаловать"
                        FontSize="24" FontWeight="SemiBold"
                        Foreground="#222" Margin="0,0,0,30"/>
 
-            <!-- Почта -->
             <TextBlock Text="Ваша почта" FontSize="14" FontWeight="SemiBold" Foreground="#333"/>
             <TextBox x:Name="EmailBox"
                      Margin="0,6,0,20"
                      Tag="Введите вашу почту"
                      TextChanged="TextBox_TextChanged"/>
 
-            <!-- Пароль -->
             <TextBlock Text="Пароль" FontSize="14" FontWeight="SemiBold" Foreground="#333"/>
             <PasswordBox x:Name="PasswordBox1"
                          Margin="0,6,0,30"
                          Tag="Введите пароль"/>
 
-            <!-- Кнопка Войти -->
             <Button Content="Войти"
                     Background="#F25B5B"
                     Margin="0,0,0,12"
                     Style="{StaticResource RoundedButton}"
                     Click="Button_Click_1"/>
 
-            <!-- Кнопка регистрации -->
             <Button Content="Регистрация"
                     Background="#F46D6D"
                     Style="{StaticResource RoundedButton}"

@@ -5,7 +5,7 @@ namespace Todo.Entities
     public class TaskModel
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-        public Guid OwnerId { get; set; } = Guid.Empty; // <-- новый: владелец задачи
+        public Guid OwnerId { get; set; } = Guid.Empty; 
         public string Title { get; set; } = string.Empty;
         public string Category { get; set; } = "General";
         public DateTime Date { get; set; } = DateTime.Now;

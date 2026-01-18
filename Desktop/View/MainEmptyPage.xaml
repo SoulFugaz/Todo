@@ -9,7 +9,6 @@
       Background="White">
 
     <Page.Resources>
-        <!-- Стиль для кнопок -->
         <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="14"/>
@@ -34,9 +33,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Левая панель -->
         <Grid Grid.Column="0" Background="#333333">
-            <!-- Серый квадрат -->
             <Grid VerticalAlignment="Top" Height="130" Background="#E6E6E6">
                 <StackPanel VerticalAlignment="Top" Margin="12,18,12,0">
                     <Button Content="Выход"
@@ -62,10 +59,8 @@
             </Grid>
         </Grid>
 
-        <!-- Правая белая область -->
         <Grid Grid.Column="1" Background="White">
 
-            <!-- PNG-аватар -->
             <Image Source="/Desktop;component/images/avatar.png"
                    Width="64" Height="64"
                    HorizontalAlignment="Left"
@@ -73,9 +68,7 @@
                    Margin="20,20,0,0"
                    Stretch="UniformToFill"/>
 
-            <!-- Текст и кнопка -->
             <Grid>
-                <!-- Текст -->
                 <StackPanel VerticalAlignment="Center"
                             HorizontalAlignment="Left"
                             Margin="70,-55,0,0">
@@ -90,7 +83,6 @@
                                Margin="0,0,0,24"/>
                 </StackPanel>
 
-                <!-- Кнопка по центру -->
                 <Button Content="Создать первую задачу"
                         Width="220"
                         Background="#FF6E6E"

@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 using Desktop.Repository;
+using TodoDesktop;
 
 namespace Desktop.View
 {
@@ -17,6 +19,11 @@ namespace Desktop.View
             NavigationService.Navigate(new RegistrationPage());
         }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (!UserRepository.Login(EmailBox.Text, PasswordBox1.Password))
@@ -25,13 +32,22 @@ namespace Desktop.View
                 return;
             }
 
-            bool hasTasks = TaskRepository
-                .GetTasksForUser(UserRepository.CurrentUser!.Id)
-                .Any();
+            var userId = UserRepository.CurrentUser?.Id;
+            if (userId == null) return;
 
-            NavigationService.Navigate(
-                hasTasks ? new MainEmptyPage() : new MainEmptyPage()
-            );
+            bool hasTasks = TaskRepository.GetTasksForUser(userId.Value).Any();
+
+            if (hasTasks)
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+
+                Window.GetWindow(this)?.Close();
+            }
+            else
+            {
+                NavigationService.Navigate(new MainEmptyPage());
+            }
         }
     }
 }

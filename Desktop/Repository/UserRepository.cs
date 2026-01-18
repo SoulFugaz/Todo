@@ -11,12 +11,10 @@ namespace Desktop.Repository
 
         public static UserModel? CurrentUser { get; private set; }
 
-        // Регистрация
         public static bool Register(UserModel user, out string error)
         {
             error = string.Empty;
 
-            // Email должен быть уникальным
             if (_users.Any(u => u.Email == user.Email))
             {
                 error = "Пользователь с таким Email уже существует!";
@@ -27,7 +25,6 @@ namespace Desktop.Repository
             return true;
         }
 
-        // Авторизация
         public static bool Login(string email, string password)
         {
             var user = _users.FirstOrDefault(u =>

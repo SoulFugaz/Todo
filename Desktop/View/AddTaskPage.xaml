@@ -20,37 +20,39 @@
                        FontSize="16"
                        FontWeight="SemiBold"
                        Margin="0,0,0,5"/>
-
             <Border Height="50" Background="White" CornerRadius="10">
                 <TextBox x:Name="TitleBox"
                          FontSize="16"
                          Padding="10"
                          BorderThickness="0"
-                         Background="Transparent"/>
+                         Background="Transparent"
+                         VerticalContentAlignment="Center"/>
             </Border>
 
-
-            <!-- Категория -->
+            <!-- Категория (ИЗМЕНЕНО НА COMBOBOX) -->
             <TextBlock Text="Категория"
                        FontSize="16"
                        FontWeight="SemiBold"
                        Margin="0,25,0,5"/>
-
             <Border Height="50" Background="White" CornerRadius="10">
-                <TextBox x:Name="CategoryBox"
-                         FontSize="16"
-                         Padding="10"
-                         BorderThickness="0"
-                         Background="Transparent"/>
+                <ComboBox x:Name="CategoryBox"
+                          FontSize="16"
+                          BorderThickness="0"
+                          Background="Transparent"
+                          VerticalContentAlignment="Center"
+                          Padding="10,12,0,0">
+                    <ComboBoxItem Content="Дом"/>
+                    <ComboBoxItem Content="Работа"/>
+                    <ComboBoxItem Content="Учеба"/>
+                    <ComboBoxItem Content="Отдых"/>
+                </ComboBox>
             </Border>
-
 
             <!-- Описание -->
             <TextBlock Text="Описание"
                        FontSize="16"
                        FontWeight="SemiBold"
                        Margin="0,25,0,5"/>
-
             <Border Height="120" Background="White" CornerRadius="10">
                 <TextBox x:Name="DescriptionBox"
                          FontSize="16"
@@ -61,7 +63,6 @@
                          Background="Transparent"/>
             </Border>
         </StackPanel>
-
 
         <!-- Правая часть -->
         <StackPanel Grid.Column="1">
@@ -117,7 +118,6 @@
 
             <!-- Кнопки -->
             <StackPanel Orientation="Horizontal" Margin="0,30,0,0" HorizontalAlignment="Center">
-
                 <Button Content="Создать"
                         Width="260"
                         Height="50"
@@ -127,7 +127,6 @@
                         FontWeight="SemiBold"
                         Margin="0,0,20,0"
                         Click="Create_Click"/>
-
                 <Button Content="Отмена"
                         Width="260"
                         Height="50"
