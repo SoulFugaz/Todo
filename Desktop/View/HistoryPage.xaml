@@ -8,6 +8,18 @@
       Background="White"
       FontFamily="Segoe UI">
 
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                     From="0" To="1"
+                                     Duration="0:0:0.4"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Page.Triggers>
+
     <Page.Resources>
 
         <DataTemplate x:Key="TaskItemTemplate">

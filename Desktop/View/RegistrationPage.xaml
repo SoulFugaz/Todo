@@ -9,34 +9,26 @@
       Width="800"
       Background="White">
 
+
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.4"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Page.Triggers>
+
     <Page.Resources>
-        <Style x:Key="RoundedButton" TargetType="Button">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Height" Value="44"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10"
-                                Background="{TemplateBinding Background}">
-                            <ContentPresenter
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+
+
 
         <ControlTemplate x:Key="WatermarkTextBox" TargetType="TextBox">
             <Grid>
                 <Border BorderBrush="#DDD" BorderThickness="0,0,0,1"/>
                 <ScrollViewer x:Name="PART_ContentHost"/>
-                <TextBlock Text="{TemplateBinding Tag}"
-                           Foreground="LightGray"
-                           Margin="2,4,0,0"
-                           IsHitTestVisible="False">
+                <TextBlock Text="{TemplateBinding Tag}" Foreground="LightGray" Margin="2,4,0,0" IsHitTestVisible="False">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -55,10 +47,7 @@
             <Grid>
                 <Border BorderBrush="#DDD" BorderThickness="0,0,0,1"/>
                 <ScrollViewer x:Name="PART_ContentHost"/>
-                <TextBlock Text="{TemplateBinding Tag}"
-                           Foreground="LightGray"
-                           Margin="2,4,0,0"
-                           IsHitTestVisible="False">
+                <TextBlock Text="{TemplateBinding Tag}" Foreground="LightGray" Margin="2,4,0,0" IsHitTestVisible="False">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -82,50 +71,31 @@
 
         <Grid Grid.Column="0">
             <Image Source="/Desktop;component/images/logo.png"
-                   Width="140"
-                   Height="140"
+                   Width="140" Height="140"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top"
                    Margin="0,100,0,0"/>
         </Grid>
 
-        <StackPanel Grid.Column="1"
-                    Margin="40"
-                    VerticalAlignment="Center">
-
-            <TextBlock Text="Welcome back"
-                       FontSize="24"
-                       FontWeight="SemiBold"
-                       Margin="0,0,0,30"/>
+        <StackPanel Grid.Column="1" Margin="40" VerticalAlignment="Center">
+            <TextBlock Text="Welcome back" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,30"/>
 
             <TextBlock Text="Имя пользователя"/>
-            <TextBox x:Name="UsernameBox"
-                     Margin="0,6,0,20"
-                     Template="{StaticResource WatermarkTextBox}"
-                     Tag="Введите имя пользователя"/>
+            <TextBox x:Name="UsernameBox" Margin="0,6,0,20" Template="{StaticResource WatermarkTextBox}" Tag="Введите имя пользователя"/>
 
             <TextBlock Text="Ваша почта"/>
-            <TextBox x:Name="EmailBox"
-                     Margin="0,6,0,20"
-                     Template="{StaticResource WatermarkTextBox}"
-                     Tag="exam@yandex.ru"/>
+            <TextBox x:Name="EmailBox" Margin="0,6,0,20" Template="{StaticResource WatermarkTextBox}" Tag="exam@yandex.ru"/>
 
             <TextBlock Text="Пароль"/>
-            <PasswordBox x:Name="PasswordBox1"
-                         Margin="0,6,0,20"
-                         Template="{StaticResource WatermarkPasswordBox}"
-                         Tag="Введите пароль"/>
+            <PasswordBox x:Name="PasswordBox1" Margin="0,6,0,20" Template="{StaticResource WatermarkPasswordBox}" Tag="Введите пароль"/>
 
             <TextBlock Text="Повторите пароль"/>
-            <PasswordBox x:Name="PasswordBox2"
-                         Margin="0,6,0,30"
-                         Template="{StaticResource WatermarkPasswordBox}"
-                         Tag="Повторите пароль"/>
+            <PasswordBox x:Name="PasswordBox2" Margin="0,6,0,30" Template="{StaticResource WatermarkPasswordBox}" Tag="Повторите пароль"/>
 
             <Button Content="Зарегистрироваться"
                     Margin="0,0,0,12"
                     Background="#F25B5B"
-                    Style="{StaticResource RoundedButton}"
+                    Style="{StaticResource RoundedButton}" 
                     Click="Button_Click_1"/>
 
             <Button Content="Назад"

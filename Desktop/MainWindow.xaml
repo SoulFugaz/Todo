@@ -5,34 +5,31 @@
         Background="White" WindowStartupLocation="CenterScreen"
         FontFamily="Segoe UI">
 
+    <!-- АНИМАЦИЯ ПОЯВЛЕНИЯ ОКНА -->
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                     From="0.0" To="1.0"
+                                     Duration="0:0:0.5"/>
+                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                        From="10,0,0,0" To="0"
+                                        Duration="0:0:0.5"
+                                        DecelerationRatio="0.9"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
     <Window.Resources>
-
-        <Style x:Key="RoundedButton" TargetType="Button">
-            <Setter Property="Height" Value="48"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Padding" Value="16,6"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="BorderBrush" Value="{x:Null}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="12">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
+        <!-- Task item template -->
         <DataTemplate x:Key="TaskItemTemplate">
             <Border x:Name="Card"
                     Background="#F8F8FF"
                     CornerRadius="8"
                     Padding="12"
                     Margin="0 8">
-
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="44"/>
@@ -40,54 +37,77 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-
+                    <!-- Checkbox с АНИМАЦИЕЙ -->
                     <CheckBox IsChecked="{Binding IsDone}" 
-          Width="24" 
-          Height="24"
-          VerticalAlignment="Center" 
-          HorizontalAlignment="Center">
+                              Width="24" Height="24"
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Center">
                         <CheckBox.Template>
                             <ControlTemplate TargetType="CheckBox">
-
                                 <Grid Width="24" Height="24" Background="Transparent">
-                                    <Ellipse Stroke="#5A6AFF" 
-                         StrokeThickness="2" 
-                         Fill="Transparent"/>
-
+                                    <Ellipse Stroke="#5A6AFF" StrokeThickness="2" Fill="Transparent"/>
+                                    <!-- Галочка с трансформацией -->
                                     <Path x:Name="CheckMark"
-                      Visibility="Collapsed"
-                      Data="M2,8 L6,12 L14,2"
-                      Stroke="#5A6AFF"
-                      StrokeThickness="2"
-                      StrokeStartLineCap="Round"
-                      StrokeEndLineCap="Round"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      Margin="1,1,0,0"/>
-
+                                          Data="M2,8 L6,12 L14,2"
+                                          Stroke="#5A6AFF"
+                                          StrokeThickness="2"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Margin="1,1,0,0"
+                                          RenderTransformOrigin="0.5, 0.5">
+                                        <!-- Начальное состояние - размер 0 -->
+                                        <Path.RenderTransform>
+                                            <ScaleTransform ScaleX="0" ScaleY="0"/>
+                                        </Path.RenderTransform>
+                                    </Path>
                                 </Grid>
                                 <ControlTemplate.Triggers>
+                                    <!-- Триггер анимации при включении галочки -->
                                     <Trigger Property="IsChecked" Value="True">
-                                        <Setter TargetName="CheckMark"
-                            Property="Visibility"
-                            Value="Visible"/>
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="CheckMark"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                     To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="CheckMark"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                     To="1" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="CheckMark"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                     To="0" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="CheckMark"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                     To="0" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </CheckBox.Template>
                     </CheckBox>
 
+                    <!-- Title + date -->
                     <StackPanel Grid.Column="1">
                         <TextBlock Text="{Binding Title}"
                                    FontSize="16"
                                    FontWeight="SemiBold"/>
-
                         <TextBlock Text="{Binding Date, StringFormat='{}{0:dd MMMM yyyy}'}"
                                    FontSize="12"
                                    Opacity="0.6"
                                    Margin="0,4,0,0"/>
                     </StackPanel>
 
+                    <!-- Time -->
                     <TextBlock Grid.Column="2"
                                Text="{Binding Date, StringFormat='{}{0:HH:mm}'}"
                                VerticalAlignment="Center"
@@ -96,6 +116,7 @@
                 </Grid>
             </Border>
 
+            <!-- Selected item highlight -->
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}"
                              Value="True">
@@ -103,10 +124,9 @@
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
-
     </Window.Resources>
 
-
+    <!-- MAIN GRID -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="230"/>
@@ -114,22 +134,19 @@
             <ColumnDefinition Width="380"/>
         </Grid.ColumnDefinitions>
 
-
+        <!-- LEFT PANEL -->
         <Border Grid.Column="0" Background="#FBF9F9">
             <StackPanel Margin="20">
-
                 <StackPanel HorizontalAlignment="Center">
                     <Border Width="92" Height="92" CornerRadius="46" Background="#F0F0F0">
                         <Image Source="/Desktop;component/images/avatar.png"
                                Stretch="UniformToFill"/>
                     </Border>
-
                     <TextBlock Text="{Binding CurrentUserName}"
                                FontSize="18"
                                FontWeight="SemiBold"
                                Margin="0,12,0,8"
                                HorizontalAlignment="Center"/>
-
                     <StackPanel>
                         <TextBlock Text="Задачи"
                                    FontSize="16"
@@ -139,37 +156,50 @@
                                    FontSize="16"
                                    Padding="6"
                                    MouseLeftButtonUp="History_Click"
-                                   Opacity="0.6"/>
+                                   Opacity="0.6"
+                                   Cursor="Hand"/>
                     </StackPanel>
                 </StackPanel>
-
                 <StackPanel VerticalAlignment="Bottom" Margin="0,400,0,0">
                     <Button Width="60" Height="60"
                             Content="+"
                             Background="#F28888"
                             Foreground="White"
                             FontSize="28"
-                            FontWeight="Bold" Click="Button_Click"/>
+                            FontWeight="Bold" 
+                            Click="Button_Click">
+                        <!-- Переопределяем стиль кнопки, чтобы она была круглой -->
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="30">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="border" Property="Opacity" Value="0.8"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </StackPanel>
-
             </StackPanel>
         </Border>
 
-
+        <!-- MIDDLE PANEL -->
         <Grid Grid.Column="1" Margin="18">
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
+            <!-- Static Category Row -->
             <StackPanel Orientation="Horizontal" Margin="12,8">
                 <TextBlock Text="Дом" Foreground="#6FBF2B" FontSize="18" Margin="0,0,24,0"/>
                 <TextBlock Text="Работа" Foreground="#FF6B35" FontSize="18" Margin="0,0,24,0"/>
                 <TextBlock Text="Учеба" Foreground="#3B6BFF" FontSize="18" Margin="0,0,24,0"/>
                 <TextBlock Text="Отдых" Foreground="#C04CFF" FontSize="18"/>
             </StackPanel>
-
+            <!-- Task list -->
             <Border Grid.Row="1" Padding="6">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ListBox ItemsSource="{Binding Tasks}"
@@ -180,59 +210,53 @@
             </Border>
         </Grid>
 
-
+        <!-- RIGHT PANEL (Selected Task Info) -->
         <Border Grid.Column="2"
                 Margin="12"
                 Background="White"
                 CornerRadius="6"
                 Padding="22">
-
             <Border.Effect>
                 <DropShadowEffect Color="#333" Opacity="0.12" BlurRadius="12" ShadowDepth="4"/>
             </Border.Effect>
-
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-
+                <!-- Title -->
                 <TextBlock Text="{Binding SelectedTask.Title}"
                            FontSize="28"
                            FontWeight="SemiBold"
                            HorizontalAlignment="Center"
                            Margin="0,4,0,12"/>
-
+                <!-- Date + time + description -->
                 <StackPanel Grid.Row="1">
                     <TextBlock Text="{Binding SelectedTask.Date, StringFormat='{}{0:HH:mm}'}"
                                FontSize="14"
                                FontWeight="SemiBold"/>
-
                     <TextBlock Text="{Binding SelectedTask.Date, StringFormat='{}{0:dd MMMM yyyy}'}"
                                FontSize="14"
                                Opacity="0.8"
                                Margin="0,6,0,18"/>
-
                     <TextBlock Text="{Binding SelectedTask.Description}"
                                TextWrapping="Wrap"
                                FontSize="16"/>
                 </StackPanel>
-
+                <!-- Buttons -->
                 <StackPanel Grid.Row="2" Margin="0,18,0,0">
                     <Button Style="{StaticResource RoundedButton}"
                             Background="#F07A7A"
                             Content="Готово"
                             Click="DoneButton_Click"
                             Margin="0,0,0,8"/>
-
                     <Button Style="{StaticResource RoundedButton}"
                             Background="#F07A7A"
                             Content="Удалить"
                             Click="DeleteButton_Click"/>
                 </StackPanel>
             </Grid>
-
         </Border>
     </Grid>
 </Window>
